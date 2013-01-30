@@ -29,7 +29,7 @@ module RailsBestPractices
       # if there are multiple call and assignment nodes who have the same receiver,
       # and the receiver is a variable, then the conditional statement nodes should be moved into model.
       add_callback :start_if, :start_unless, :start_elsif, :start_ifop, :start_if_mod, :start_unless_mod do |node|
-        node.conditional_statement.grep_nodes(sexp_type: :call) { |child_node| remember_variable_use_count(child_node) }
+        node.conditional_statement.grep_nodes(:sexp_type => :call) { |child_node| remember_variable_use_count(child_node) }
 
         variable_use_count.each do |variable_node, count|
           add_error "move code into model (#{variable_node} use_count > #{@use_count})" if count > @use_count

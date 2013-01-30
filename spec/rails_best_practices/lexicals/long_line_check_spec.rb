@@ -5,7 +5,7 @@ module RailsBestPractices
     describe LongLineCheck do
 
       it "should find long lines" do
-        runner = Core::Runner.new(lexicals: LongLineCheck.new)
+        runner = Core::Runner.new(:lexicals => LongLineCheck.new)
         content =<<-EOF
 class User < ActiveRecord::Base
 # 81 Chars
@@ -20,7 +20,7 @@ EOF
         runner.errors[0].to_s.should == "app/models/user.rb:3 - line is longer than 80 characters (81 characters)"
       end
       it "should find long lines with own max size" do
-        runner = Core::Runner.new(lexicals: LongLineCheck.new('max_line_length' => 90))
+        runner = Core::Runner.new(:lexicals => LongLineCheck.new('max_line_length' => 90))
         content =<<-EOF
 class User < ActiveRecord::Base
 # 91 Chars
@@ -35,7 +35,7 @@ EOF
         runner.errors[0].to_s.should == "app/models/user.rb:3 - line is longer than 90 characters (91 characters)"
       end
       it "should not check non .rb files" do
-        runner = Core::Runner.new(lexicals: LongLineCheck.new)
+        runner = Core::Runner.new(:lexicals => LongLineCheck.new)
         content = "
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 "

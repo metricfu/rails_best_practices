@@ -26,7 +26,7 @@ require 'optparse'
 #    -h, --help                       show this message
 options = {}
 OptionParser.new do |opts|
-  opts.banner = "Usage: rails_best_practices [options] path"
+  opts.banner = ":Usage => rails_best_practices [options] path"
 
   opts.on("-d", "--debug", "Debug mode") do
     options['debug'] = true

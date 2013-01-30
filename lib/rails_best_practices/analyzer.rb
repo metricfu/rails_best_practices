@@ -223,15 +223,15 @@ module RailsBestPractices
       File.open(@options["output-file"], "w+") do |file|
         eruby = Erubis::Eruby.new(template)
         file.puts eruby.evaluate(
-          errors: errors,
-          error_types: error_types,
-          textmate: @options["with-textmate"],
-          mvim: @options["with-mvim"],
-          github: @options["with-github"],
-          github_name: @options["github-name"],
-          last_commit_id: last_commit_id,
-          git: @options["with-git"],
-          hg: @options["with-hg"]
+          :errors => errors,
+          :error_types => error_types,
+          :textmate => @options["with-textmate"],
+          :mvim => @options["with-mvim"],
+          :github => @options["with-github"],
+          :github_name => @options["github-name"],
+          :last_commit_id => last_commit_id,
+          :git => @options["with-git"],
+          :hg => @options["with-hg"]
         )
       end
     end

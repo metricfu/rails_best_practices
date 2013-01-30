@@ -83,7 +83,7 @@ module RailsBestPractices
           unless resources_methods.all? { |meth| Prepares.controller_methods.has_method?(controller_name, meth) }
             prepared_method_names = Prepares.controller_methods.get_methods(controller_name).map(&:method_name)
             only_methods = (resources_methods & prepared_method_names).map { |meth| ":#{meth}" }.join(", ")
-            add_error "restrict auto-generated routes #{friendly_route_name(node)} (only: [#{only_methods}])"
+            add_error "restrict auto-generated routes #{friendly_route_name(node)} (:only => [#{only_methods}])"
           end
         end
 
@@ -95,7 +95,7 @@ module RailsBestPractices
           unless resource_methods.all? { |meth| Prepares.controller_methods.has_method?(controller_name, meth) }
             prepared_method_names = Prepares.controller_methods.get_methods(controller_name).map(&:method_name)
             only_methods = (resource_methods & prepared_method_names).map { |meth| ":#{meth}" }.join(", ")
-            add_error "restrict auto-generated routes #{friendly_route_name(node)} (only: [#{only_methods}])"
+            add_error "restrict auto-generated routes #{friendly_route_name(node)} (:only => [#{only_methods}])"
           end
         end
 

@@ -4,8 +4,8 @@ module RailsBestPractices
   module Reviews
     describe RemoveUnusedMethodsInModelsReview do
       let(:runner) { Core::Runner.new(
-        prepares: Prepares::ModelPrepare.new,
-        reviews: RemoveUnusedMethodsInModelsReview.new({'except_methods' => ["*#set_cache"]})
+        :prepares => Prepares::ModelPrepare.new,
+        :reviews => RemoveUnusedMethodsInModelsReview.new({'except_methods' => ["*#set_cache"]})
       ) }
 
       context "private" do
@@ -86,7 +86,7 @@ module RailsBestPractices
           content =<<-EOF
           class Post < ActiveRecord::Base
             def fetch
-              get(position: 'first')
+              get(:position => 'first')
             end
             private
             def get(options={}); end
@@ -159,7 +159,7 @@ module RailsBestPractices
         it "should not remove unused method with validation condition" do
           content =<<-EOF
           class Post < ActiveRecord::Base
-            validates_uniqueness_of :login, if: :email_blank?
+            validates_uniqueness_of :login, :if => :email_blank?
             private
             def email_blank?; end
           end
@@ -173,7 +173,7 @@ module RailsBestPractices
         it "should not remove unused method with aasm" do
           content =<<-EOF
           class Post < ActiveRecord::Base
-            aasm_state :accepted, enter: [:update_datetime]
+            aasm_state :accepted, :enter => [:update_datetime]
             private
             def update_datetime; end
           end
@@ -383,7 +383,7 @@ module RailsBestPractices
         it "should not remove unused named_scope" do
           content =<<-EOF
           class Post < ActiveRecord::Base
-            named_scope :active, conditions: {active: true}
+            named_scope :active, :conditions => {:active => true}
           end
           EOF
           runner.prepare("app/models/post.rb", content)
@@ -403,7 +403,7 @@ module RailsBestPractices
         it "should remove unused named_scope" do
           content =<<-EOF
           class Post < ActiveRecord::Base
-            named_scope :active, conditions: {active: true}
+            named_scope :active, :conditions => {:active => true}
           end
           EOF
           runner.prepare("app/models/post.rb", content)
@@ -418,7 +418,7 @@ module RailsBestPractices
         it "should not remove unused scope" do
           content =<<-EOF
           class Post < ActiveRecord::Base
-            scope :active, where(active: true)
+            scope :active, where(:active => true)
           end
           EOF
           runner.prepare("app/models/post.rb", content)
@@ -438,7 +438,7 @@ module RailsBestPractices
         it "should remove unused named_scope" do
           content =<<-EOF
           class Post < ActiveRecord::Base
-            scope :active, where(active: true)
+            scope :active, where(:active => true)
           end
           EOF
           runner.prepare("app/models/post.rb", content)
@@ -540,7 +540,7 @@ module RailsBestPractices
           content =<<-EOF
           class Post < ActiveRecord::Base
             def to_xml(options = {})
-              super options.merge(exclude: :visible, methods: [:is_discussion_conversation])
+              super options.merge(:exclude => :visible, :methods => [:is_discussion_conversation])
             end
 
             def is_discussion_conversation; end
@@ -630,7 +630,7 @@ module RailsBestPractices
           runner.prepare("app/models/category.rb", content)
           runner.review("app/models/category.rb", content)
           content =<<-EOF
-          <%= f.collection_select :parent_id, Category.all_hierarchic(except: @category), :id, :indented_name, {include_blank: true} %>
+          <%= f.collection_select :parent_id, Category.all_hierarchic(:except => @category), :id, :indented_name, {:include_blank => true} %>
           EOF
           runner.review("app/views/categories/_form.html.erb", content)
           runner.after_review
@@ -646,7 +646,7 @@ module RailsBestPractices
           runner.prepare("app/models/category.rb", content)
           runner.review("app/models/category.rb", content)
           content =<<-EOF
-          <%= collection_select :category, :parent_id, Category.all_hierarchic(except: @category), :id, :indented_name, {include_blank: true} %>
+          <%= collection_select :category, :parent_id, Category.all_hierarchic(:except => @category), :id, :indented_name, {:include_blank => true} %>
           EOF
           runner.review("app/views/categories/_form.html.erb", content)
           runner.after_review
@@ -662,7 +662,7 @@ module RailsBestPractices
           runner.prepare("app/models/category.rb", content)
           runner.review("app/models/category.rb", content)
           content =<<-EOF
-          <%= select_tag 'category', options_from_collection_for_select(Category.all_hierachic(except: @category), :id, :indented_name) %>
+          <%= select_tag 'category', options_from_collection_for_select(Category.all_hierachic(:except => @category), :id, :indented_name) %>
           EOF
           runner.review("app/views/categories/_form.html.erb", content)
           runner.after_review

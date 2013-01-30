@@ -48,9 +48,9 @@ module RailsBestPractices
         @reviews = reviews.empty? ? load_reviews : reviews
         load_plugin_reviews if reviews.empty?
 
-        @lexical_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(checkers: @lexicals)
-        @prepare_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @prepares)
-        @review_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @reviews)
+        @lexical_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(:checkers => @lexicals)
+        @prepare_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(:checkers => @prepares)
+        @review_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(:checkers => @reviews)
       end
 
       # lexical analysis the file.
@@ -108,7 +108,7 @@ module RailsBestPractices
           elsif filename =~ /.*\.haml$/
             begin
               require 'haml'
-              content = Haml::Engine.new(content, {ugly: true}).precompiled
+              content = Haml::Engine.new(content, {:ugly => true}).precompiled
               # remove \xxx characters
               content.gsub!(/\\\d{3}/, '')
             rescue LoadError

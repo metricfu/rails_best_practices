@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Prepares
     describe ControllerPrepare do
-      let(:runner) { Core::Runner.new(prepares: [ControllerPrepare.new, HelperPrepare.new]) }
+      let(:runner) { Core::Runner.new(:prepares => [ControllerPrepare.new, HelperPrepare.new]) }
 
       context "methods" do
         it "should parse controller methods" do
@@ -90,7 +90,7 @@ module RailsBestPractices
           it "extend inherited_resources with all actions" do
             content =<<-EOF
             class PostsController < InheritedResources::Base
-              actions :all, except: [:show]
+              actions :all, :except => [:show]
             end
             EOF
             runner.prepare('app/controllers/posts_controller.rb', content)

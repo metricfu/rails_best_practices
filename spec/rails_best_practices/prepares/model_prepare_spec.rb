@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Prepares
     describe ModelPrepare do
-      let(:runner) { Core::Runner.new(prepares: ModelPrepare.new) }
+      let(:runner) { Core::Runner.new(:prepares => ModelPrepare.new) }
 
       context "models" do
         it "class_name with modules ::" do
@@ -150,7 +150,7 @@ module RailsBestPractices
             content =<<-EOF
             class Lush
               include Mongoid::Document
-              embeds_one :whiskey, class_name: "Drink", inverse_of: :alcoholic
+              embeds_one :whiskey, :class_name => "Drink", :inverse_of => :alcoholic
             end
             EOF
             runner.prepare("app/models/lush.rb", content)
@@ -162,7 +162,7 @@ module RailsBestPractices
             content =<<-EOF
             class Drink
               include Mongoid::Document
-              embedded_in :alcoholic, class_name: "Lush", inverse_of: :whiskey
+              embedded_in :alcoholic, :class_name => "Lush", :inverse_of => :whiskey
             end
             EOF
             runner.prepare("app/models/drink.rb", content)
@@ -263,7 +263,7 @@ module RailsBestPractices
         it "should treat named_scope as method" do
           content =<<-EOF
           class Post < ActiveRecord::Base
-            named_scope :active, conditions: {active: true}
+            named_scope :active, :conditions => {:active => true}
           end
           EOF
           runner.prepare("app/models/post.rb", content)
@@ -274,7 +274,7 @@ module RailsBestPractices
         it "should treat scope as method" do
           content =<<-EOF
           class Post < ActiveRecord::Base
-            scope :active, where(active: true)
+            scope :active, where(:active => true)
           end
           EOF
           runner.prepare("app/models/post.rb", content)
@@ -324,10 +324,10 @@ module RailsBestPractices
           class Post
             include Mongoid::Document
             field :title
-            field :tags, type: Array
-            field :comments_count, type: Integer
-            field :deleted_at, type: DateTime
-            field :active, type: Boolean
+            field :tags, :type => Array
+            field :comments_count, :type => Integer
+            field :deleted_at, :type => DateTime
+            field :active, :type => Boolean
           end
           EOF
           runner.prepare("app/models/post.rb", content)
@@ -366,7 +366,7 @@ module RailsBestPractices
         it "should raised for finder_sql option" do
           content =<<-EOF
           class EventSubscription < ActiveRecord::Base
-            has_many :event_notification_template, finder_sql: ?
+            has_many :event_notification_template, :finder_sql => ?
           end
           EOF
           content.sub!('?', '\'SELECT event_notification_templates.* from event_notification_templates where event_type_id=#{event_type_id} and delivery_method_id=#{delivery_method_id}\'')

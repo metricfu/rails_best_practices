@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe CheckSaveReturnValueReview do
-      let(:runner) { Core::Runner.new(reviews: CheckSaveReturnValueReview.new) }
+      let(:runner) { Core::Runner.new(:reviews => CheckSaveReturnValueReview.new) }
 
       describe "check_save_return_value" do
         it "should warn you if you fail to check save return value" do

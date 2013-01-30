@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe NeedlessDeepNestingReview do
-      let(:runner) { Core::Runner.new(reviews: NeedlessDeepNestingReview.new) }
+      let(:runner) { Core::Runner.new(:reviews => NeedlessDeepNestingReview.new) }
 
       describe "rails2" do
         it "should needless deep nesting" do
@@ -21,7 +21,7 @@ module RailsBestPractices
 
         it "should not needless deep nesting for shallow" do
           content = <<-EOF
-          map.resources :posts, shallow: true do |post|
+          map.resources :posts, :shallow => true do |post|
             post.resources :comments do |comment|
               comment.resources :favorites
             end
@@ -100,7 +100,7 @@ module RailsBestPractices
 
         it "should not needless deep nesting for shallow" do
           content = <<-EOF
-          resources :posts, shallow: true do
+          resources :posts, :shallow => true do
             resources :comments do
               resources :favorites
             end
@@ -112,10 +112,10 @@ module RailsBestPractices
 
         it "should not needless deep nesting for shallow 4 levels" do
           content = <<-EOF
-          resources :applications, shallow: true, only: [:index, :show, :create] do
-            resources :events, only: [:index, :show, :create, :subscribe, :push] do
-              resources :executions, only: [:index, :show] do
-                resources :execution_statuses, only: :index
+          resources :applications, :shallow => true, :only => [:index, :show, :create] do
+            resources :events, :only => [:index, :show, :create, :subscribe, :push] do
+              resources :executions, :only => [:index, :show] do
+                resources :execution_statuses, :only => :index
               end
             end
           end

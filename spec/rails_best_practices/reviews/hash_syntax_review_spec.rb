@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe HashSyntaxReview do
-      let(:runner) { Core::Runner.new(reviews: HashSyntaxReview.new) }
+      let(:runner) { Core::Runner.new(:reviews => HashSyntaxReview.new) }
 
       it "should find 1.8 Hash with symbol" do
         content =<<-EOF
@@ -29,7 +29,7 @@ module RailsBestPractices
       it "should not alert on 1.9 Syntax" do
         content =<<-EOF
         class User < ActiveRecord::Base
-          CONST = { foo: :bar }
+          CONST = { :foo => :bar }
         end
         EOF
         runner.review('app/models/user.rb', content)
@@ -38,8 +38,8 @@ module RailsBestPractices
 
       it "should ignore haml_out" do
         content =<<-EOF
-%div{ class: "foo1" }
-.div{ class: "foo2" }
+%div{ :class => "foo1" }
+.div{ :class => "foo2" }
 #div{ class: "foo3" }
         EOF
         runner.review('app/views/files/show.html.haml', content)

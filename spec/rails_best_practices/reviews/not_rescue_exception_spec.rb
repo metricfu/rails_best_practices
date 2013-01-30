@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe NotRescueExceptionReview do
-      let(:runner) { Core::Runner.new(reviews: NotRescueExceptionReview.new) }
+      let(:runner) { Core::Runner.new(:reviews => NotRescueExceptionReview.new) }
 
       describe "not_rescue_exception" do
         it "should not rescue exception in method rescue with named var" do
